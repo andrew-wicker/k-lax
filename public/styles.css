@@ -1,0 +1,10 @@
+.game-card {
+	width: 100px;
+	height: 150px;
+	border: 2px solid lightslategray;
+}
+
+.game-card img {
+	max-width: 75%;
+	height: auto;
+}
