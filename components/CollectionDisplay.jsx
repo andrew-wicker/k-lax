@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import CollectionTile from './CollectionTile';
+import { useSelector } from 'react-redux';
 
 const CollectionDisplay = () => {
   const [collection, setCollection] = useState([]);
+  const addedGame = useSelector((state) => state.collection.addedGame);
 
   const fetchCollection = async () => {
     const collectionApi = 'http://localhost:3000/get-collection';
@@ -21,7 +23,8 @@ const CollectionDisplay = () => {
   };
   useEffect(() => {
     fetchCollection();
-  }, []);
+    console.log('is the useEffect running?');
+  }, [addedGame]);
 
   return (
     <div className="collectionDisplay">

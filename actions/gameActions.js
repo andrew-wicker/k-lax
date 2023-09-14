@@ -145,5 +145,8 @@ export const addGameToCollectionActionCreator =
   };
 
 export const addGameSuccessfulActionCreator = (boardgame) => {
-  console.log(`${boardgame.title} was added to the collection!`);
+  return {
+    type: types.ADD_GAME_SUCCESSFUL,
+    payload: boardgame,
+  };
 };
