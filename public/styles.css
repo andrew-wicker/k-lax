@@ -1,10 +1,39 @@
+/* MainContainer */
+.container {
+}
+
+.containerTopDisplay {
+}
+
+.containerMainDisplay {
+}
+
+/* Search Display */
+.search-display {
+}
+
+.search-results {
+}
+
+.enterGameTitle {
+}
+
+#gameTitleInput.enterGameTitle {
+}
+
+#searchGame.enterGameTitle {
+}
+
 .game-card {
-	width: 100px;
-	height: 150px;
-	border: 2px solid lightslategray;
+  width: 100px;
+  height: 150px;
+  border: 2px solid lightslategray;
 }
 
 .game-card img {
-	max-width: 75%;
-	height: auto;
+  max-width: 75%;
+  height: auto;
+}
+
+.collectionDisplay {
 }
