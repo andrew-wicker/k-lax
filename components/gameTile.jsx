@@ -2,10 +2,11 @@ import React from 'react';
 import { gameDetailLookUpActionCreator } from '../actions/gameActions';
 import { useDispatch } from 'react-redux';
 
-const GameTile = ({ game }) => {
+const GameTile = ({ game, onAddToCollection }) => {
   const dispatch = useDispatch();
-  const handleSubmit = () => {
+  const handleAddToCollection = () => {
     dispatch(gameDetailLookUpActionCreator(game.id));
+    onAddToCollection();
   };
 
   return (
@@ -14,7 +15,7 @@ const GameTile = ({ game }) => {
       <p> {game.yearPublished}</p>
       <button
         id="addToCollection"
-        onClick={handleSubmit}
+        onClick={handleAddToCollection}
       >
         Add To Collection
       </button>

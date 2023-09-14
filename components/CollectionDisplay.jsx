@@ -1,9 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import CollectionTile from './CollectionTile';
 
 const CollectionDisplay = () => {
+  const [collection, setCollection] = useState([]);
+
+  const fetchCollection = async () => {
+    const collectionApi = 'http://localhost:3000/get-collection';
+    try {
+      const response = await fetch(collectionApi);
+      if (!response.ok) {
+        throw new Error(
+          'fetchCollection in CollectionDisplay: network response was not ok!'
+        );
+      }
+      const data = await response.json();
+      setCollection(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchCollection();
+  }, []);
+
   return (
     <div className="collectionDisplay">
-      <h3>Collection Goes Here</h3>
+      {collection.map((game) => (
+        <CollectionTile
+          key={game.id}
+          title={game.title}
+          description={game.description}
+          minPlayers={game.minPlayers}
+          maxPlayers={game.maxPlayers}
+          yearPublished={game.yearPublished}
+          coverImage={game.coverImage}
+        />
+      ))}
     </div>
   );
 };

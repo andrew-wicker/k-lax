@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const apiRouter = require('../routes/api');
+const mongoApi = require('../routes/mongoApi');
 const mongoose = require('mongoose');
 const mongoURI =
   'mongodb+srv://klax-server:klax@k-lax-mongodb-dev.qgsi6rb.mongodb.net/';
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 // Router to handle game info retrieval
 app.use('/search', apiRouter);
 app.use('/add-game', apiRouter);
+app.use('/get-collection', mongoApi);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
