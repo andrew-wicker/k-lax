@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const apiRouter = require('../routes/api');
 const mongoose = require('mongoose');
 const mongoURI =
@@ -9,6 +10,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors());
 // app.use(express.urlencoded());
 
 app.use(express.static(path.resolve(__dirname, '../public')));
@@ -22,6 +24,7 @@ app.get('/', (req, res) => {
 
 // Router to handle game info retrieval
 app.use('/search', apiRouter);
+app.use('/add-game', apiRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

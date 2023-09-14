@@ -26,7 +26,7 @@ gameController.createGame = async (req, res, next) => {
     });
 
     await newGame.save();
-    res.status(200).json({ message: 'Game added to collection' });
+    res.status(201).json({ message: 'Game added to collection' });
   } catch (error) {
     console.error(error);
     res.status(500).json({

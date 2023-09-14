@@ -3,6 +3,18 @@ import * as types from '../constants/actionTypes';
 import bggController from '../controllers/bggController';
 const xml2js = require('xml2js');
 
+const createErr = (errInfo) => {
+  const { method, type, err } = errInfo;
+  return {
+    log: `gameActions.${method} ${type}: ERROR: ${
+      typeof err === 'object' ? JSON.stringify(err) : err
+    }`,
+    message: {
+      err: `Error occurred in gameActions.${method}. Check server logs for more details.`,
+    },
+  };
+};
+
 export const searchGameActionCreator = (gameTitle) => async (dispatch) => {
   try {
     dispatch({ type: types.SEARCH_GAME });
@@ -71,32 +83,67 @@ export const gameDetailLookUpActionCreator = (gameId) => async (dispatch) => {
     const reqGameData = await response.text();
 
     const reqGameDataJson = await parser.parseStringPromise(reqGameData);
-    // console.log(reqGameDataJson);
+    console.log(reqGameDataJson);
 
-    const boardGameTitle = reqGameDataJson.items.item.name.value;
-    const boardGameCoverImage = reqGameDataJson.items.item.image;
-    const boardGameThumbnail = reqGameDataJson.items.item.thumbnail;
-    const boardGameDescription = reqGameDataJson.items.item.description;
-    const boardGameMinPlayers = reqGameDataJson.items.item.minplayers.value;
-    const boardGameMaxPlayers = reqGameDataJson.items.item.maxplayers.value;
-    const boardGameYearPublished =
-      reqGameDataJson.items.item.yearpublished.value;
+    const bggId = gameId;
+    const title = reqGameDataJson.items.item.name[0].value;
+    const coverImage = reqGameDataJson.items.item.image;
+    const thumbnail = reqGameDataJson.items.item.thumbnail;
+    const description = reqGameDataJson.items.item.description;
+    const minPlayers = reqGameDataJson.items.item.minplayers.value;
+    const maxPlayers = reqGameDataJson.items.item.maxplayers.value;
+    const yearPublished = reqGameDataJson.items.item.yearpublished.value;
 
     const boardgame = {
-      boardGameTitle,
-      boardGameCoverImage,
-      boardGameThumbnail,
-      boardGameDescription,
-      boardGameMinPlayers,
-      boardGameMaxPlayers,
-      boardGameYearPublished,
+      bggId,
+      title,
+      coverImage,
+      thumbnail,
+      description,
+      minPlayers,
+      maxPlayers,
+      yearPublished,
     };
+
+    console.log(boardgame);
 
     dispatch({
       type: types.GAME_DETAIL_LOOKUP,
       payload: gameId,
     });
+
+    dispatch(addGameToCollectionActionCreator(boardgame));
   } catch (error) {
     console.error(error);
   }
+};
+
+export const addGameToCollectionActionCreator =
+  (boardgame) => async (dispatch) => {
+    try {
+      const addGameAPI = 'http://localhost:3000/add-game';
+      dispatch({ type: types.ADD_GAME_TO_COLLECTION });
+
+      const response = await fetch(addGameAPI, {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+
+        body: JSON.stringify(boardgame),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok!');
+      }
+
+      dispatch({
+        type: types.ADD_GAME_SUCCESSFUL,
+        payload: boardgame,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+export const addGameSuccessfulActionCreator = (boardgame) => {
+  console.log(`${boardgame.title} was added to the collection!`);
 };

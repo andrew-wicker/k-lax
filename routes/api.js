@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const bggController = require('../controllers/bggController');
 const gameController = require('../controllers/gameController');
+
+router.use(cors());
 
 router.use(
   '/:gameTitle',
@@ -12,6 +15,6 @@ router.use(
   }
 );
 
-router.post('/add-game', gameController.createGame);
+router.post('/', gameController.createGame);
 
 module.exports = router;
