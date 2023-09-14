@@ -15,7 +15,7 @@ module.exports = {
 	plugins: [
 		new HTMLWebpackPlugin({
 			title: 'Development',
-			template: '/client/index.html',
+			template: './client/index.html',
 		}),
 	],
 	module: {
@@ -46,7 +46,9 @@ module.exports = {
 			'/': 'http://localhost:3000',
 			'/login': 'http://localhost:3000',
 			'/home': 'http://localhost:3000',
+			'/api': 'http://localhost:3000',
 		},
+		historyApiFallback: true,
 	},
 	resolve: {
 		extensions: ['.js', '.jsx'],
