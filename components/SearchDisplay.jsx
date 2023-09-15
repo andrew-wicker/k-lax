@@ -5,9 +5,11 @@ import GameTile from './gameTile';
 import CollectionDisplay from './CollectionDisplay';
 const xml2js = require('xml2js');
 import { setSearchResultsActionCreator } from '../actions/gameActions';
+import Modal from 'react-modal';
 
 const SearchDisplay = () => {
   const [gameTitle, setGameTitle] = useState('');
+  const [showModal, setShowModal] = useState(false);
   // const [titleSelection, setTitleSelection] = useState([]);
   const isLoading = useSelector((state) => state.search.isLoading);
   const titleSelection = useSelector((state) => state.search.titleSelection);
@@ -39,39 +41,77 @@ const SearchDisplay = () => {
         });
     }
   };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="search-display">
+      <Modal
+        className="modal"
+        isOpen={showModal}
+        onRequestClose={closeModal}
+        contentLabel="Search Results"
+      >
+        <h2>Search Results</h2>
+        <div className="search-results">
+          {titleSelection.map((game) => (
+            <div
+              className="search-result-tile"
+              key={game.id}
+            >
+              <GameTile
+                game={game}
+                onAddToCollection={handleAddToCollection}
+              />
+            </div>
+          ))}
+        </div>
+        <button onClick={closeModal}>X</button>
+      </Modal>
+
       {titleSelection && titleSelection.length > 0 ? (
         <div className="search-results">
-          <h4>Search Results:</h4>
-          <ul>
-            {titleSelection.map((game) => (
-              <li key={game.id}>
-                <GameTile
-                  game={game}
-                  onAddToCollection={handleAddToCollection}
-                />
-              </li>
-            ))}
-          </ul>
+          <button onClick={openModal}>Show results</button>
         </div>
       ) : (
-        <div className="enterGameTitle">
-          <h3>Game Title: </h3>
-          <input
+        <form
+          className="search-display-form"
+          onSubmit={(e) => {
+            e.preventDefault;
+            handleSubmit(e);
+            openModal();
+          }}
+        >
+          <div className="enterGameTitle">
+            {/* <form
+            role="search"
             id="gameTitleInput"
-            type="text"
             value={gameTitle}
             onChange={handleInputChange}
-            placeholder=" Enter game title..."
-          />
-          <button
-            id="searchGame"
-            onClick={handleSubmit}
-          >
-            {isLoading ? 'Searching...' : 'Search'}
-          </button>
-        </div>
+            onSubmit={handleSubmit}
+          > */}
+            <label htmlFor="search">Add a game to your Collection</label>
+            <input
+              id="search"
+              type="search"
+              placeholder="Game lookup..."
+              autoFocus
+              required
+              value={gameTitle}
+              onChange={handleInputChange}
+            />
+            <button type="submit">
+              {isLoading ? 'Searching...' : 'Search'}
+            </button>
+            {/* </form> */}
+          </div>
+        </form>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { gameDetailLookUpActionCreator } from '../actions/gameActions';
 import { useDispatch } from 'react-redux';
+import Modal from 'react-modal';
 
 const GameTile = ({ game, onAddToCollection }) => {
   const dispatch = useDispatch();

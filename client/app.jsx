@@ -3,7 +3,7 @@ import MainContainer from '../components/MainContainer.jsx';
 
 const App = () => {
   return (
-    <div>
+    <div className="wrap">
       <MainContainer />
     </div>
   );

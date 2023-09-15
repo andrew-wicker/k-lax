@@ -17,10 +17,12 @@
 		"express": "^4.18.2",
 		"fetch": "^1.1.0",
 		"http": "^0.0.1-security",
+		"modal": "^1.2.0",
 		"mongoose": "^7.5.1",
 		"node-fetch": "^3.3.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-modal": "^3.16.1",
 		"react-redux": "^8.1.2",
 		"stream-http": "^3.2.0",
 		"xml2js": "^0.6.2"
