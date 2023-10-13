@@ -30,13 +30,14 @@ export const searchGameActionCreator = (gameTitle) => async (dispatch) => {
     const xmlData = await response.text();
 
     const parser = new xml2js.Parser({
-      mergeAttrs: true,
-      normalizeTags: true,
-      normalize: true,
-      explicitArray: false,
+      // mergeAttrs: true,
+      // normalizeTags: true,
+      // normalize: true,
+      // explicitArray: false,
     });
 
     const jsonData = await parser.parseStringPromise(xmlData);
+    console.log(jsonData);
     const searchResults = jsonData.items.item;
     console.log(searchResults);
 
